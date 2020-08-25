@@ -53,10 +53,10 @@ namespace RestaurantRaterAPI.Controllers
 
         //--Update (PUT)
         [HttpPut]
-        public async Task<IHttpActionResult> UpdateRestaurant([FromUri]int id, [FromBody]Restaurant updatedRestaurant)
+        public async Task<IHttpActionResult> UpdateRestaurant([FromUri] int id, [FromBody] Restaurant updatedRestaurant)
         {
             //check if ou updated restaurant is valid
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 //  Find and updated the restaurant
                 Restaurant restaurant = await _context.Restaurants.FindAsync(id);
@@ -79,5 +79,25 @@ namespace RestaurantRaterAPI.Controllers
         }
 
         //--Delete (DELETE)
+        [HttpDelete]
+
+        public async Task<IHttpActionResult> DeleteRestaurantByID(int id)
+        {
+            Restaurant entity = await _context.Restaurants.FindAsync(id);
+
+            if(entity ==null)
+            {
+                return NotFound();
+            }
+
+            _context.Restaurants.Remove(entity);
+
+            if (await _context.SaveChangesAsync() == 1)
+            {
+                return Ok("The restaurant was deleted.");
+            }
+
+            return InternalServerError();
+        }
     }
 }
