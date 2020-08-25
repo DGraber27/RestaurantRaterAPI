@@ -23,20 +23,25 @@ namespace RestaurantRaterAPI.Controllers
             if (ModelState.IsValid)
             {
                 _context.Restaurants.Add(model);
-               await _context.SaveChangesAsync();
-                
-                return Ok("You created a restaurant and it was saved!"); 
+                await _context.SaveChangesAsync();
+
+                return Ok("You created a restaurant and it was saved!");
             }
 
             return BadRequest(ModelState);
         }
-        
+
         //--Read (Get)
         // Get by ID
         [HttpGet]
         public async Task<IHttpActionResult> GetById(int id)
         {
-
+            Restaurant restaurant = await _context.Restaurants.FindAsync(id);
+            if (restaurant != null)
+            {
+                return Ok(restaurant);
+            }
+            return NotFound();
         }
         // Get All
         [HttpGet]
@@ -47,6 +52,31 @@ namespace RestaurantRaterAPI.Controllers
         }
 
         //--Update (PUT)
+        [HttpPut]
+        public async Task<IHttpActionResult> UpdateRestaurant([FromUri]int id, [FromBody]Restaurant updatedRestaurant)
+        {
+            //check if ou updated restaurant is valid
+            if(ModelState.IsValid)
+            {
+                //  Find and updated the restaurant
+                Restaurant restaurant = await _context.Restaurants.FindAsync(id);
+                if (restaurant != null)
+                {
+                    // update the restaurant now that we found it
+                    restaurant.Name = updatedRestaurant.Name;
+                    restaurant.Rating = updatedRestaurant.Rating;
+
+                    await _context.SaveChangesAsync();
+
+                    return Ok();
+                }
+                //didn't find the restaurant
+                return NotFound();
+            }
+            return BadRequest(ModelState);
+
+            //Return a bad request
+        }
 
         //--Delete (DELETE)
     }
