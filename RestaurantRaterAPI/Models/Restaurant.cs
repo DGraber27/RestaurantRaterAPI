@@ -7,7 +7,7 @@ using System.Web;
 namespace RestaurantRaterAPI.Models
 {
     //Restaurant entity (Class that gets stored in the database)
-    public class Restaurant
+    public class Restaurant 
     {
         [Key] //attribute
         public int Id { get; set; }
@@ -17,7 +17,7 @@ namespace RestaurantRaterAPI.Models
         public double Rating { get; set; }
         public bool IsRecommended // => Rating >= 3.5;   simplified version since only one operation
         {
-            get
+            get //readonly
             {
                 return Rating >= 3.5;
                 //return (Rating >= 3.5) ? true : false;   Could also be if/else statement
