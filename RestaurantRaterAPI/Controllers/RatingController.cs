@@ -38,13 +38,26 @@ namespace RestaurantRaterAPI.Controllers
 
         // Get All Ratings for a specific Restaurant
         [HttpGet]
-        public async Task<IHttpActionResult> GetSpecificRestaurantRating(int id)
+        public async Task<IHttpActionResult> GetById(int id)
         {
-            Rating rating = await _context.Ratings.FindAsync(id);
-            if (id != null)
-                return Ok(rating.Restaurant);
+            Restaurant restaurant = await _context.Restaurants.FindAsync(id);
+            if (restaurant != null)
+            {
+                return Ok(restaurant.Ratings);
+            }
             return NotFound();
         }
+        //public async Task<IHttpActionResult> GetSpecificRestaurantRating(int id)
+        //{
+        //    Rating rating = await _context.Ratings.FindAsync(id);
+        //    if (rating != null)
+        //    {
+
+        //        return Ok(rating.Restaurant);
+        //    }
+
+        //    return NotFound();
+        //}
 
 
         //Update
