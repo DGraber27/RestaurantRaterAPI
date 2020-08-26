@@ -28,7 +28,7 @@ namespace RestaurantRaterAPI.Controllers
                 return BadRequest($"The target restaurant with the ID of {model.RestaurantId} does not exist.");
             }
             _context.Ratings.Add(model);
-            if(await _context.SaveChangesAsync()==1)
+            if (await _context.SaveChangesAsync() == 1)
                 return Ok($"You rated { restaurant.Name} successfully!");
             return InternalServerError();
         }
@@ -42,7 +42,7 @@ namespace RestaurantRaterAPI.Controllers
         {
             Rating rating = await _context.Ratings.FindAsync(id);
             if (id != null)
-            return Ok(rating.Restaurant);
+                return Ok(rating.Restaurant);
             return NotFound();
         }
 
@@ -51,7 +51,7 @@ namespace RestaurantRaterAPI.Controllers
         [HttpPut]
         public async Task<IHttpActionResult> UpdateRestaurantRating([FromUri] int id, [FromBody] Rating updatedRating)
         {
-           if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 Rating rating = await _context.Ratings.FindAsync(id);
                 if (rating != null)
@@ -59,7 +59,7 @@ namespace RestaurantRaterAPI.Controllers
                     rating.FoodScore = updatedRating.FoodScore;
                     rating.EnvironmentScore = updatedRating.EnvironmentScore;
                     rating.CleanlinessScore = updatedRating.CleanlinessScore;
-                        await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                     return Ok("Your rating has been updated!");
                 }
                 return NotFound();
