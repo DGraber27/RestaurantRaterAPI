@@ -180,6 +180,10 @@
     <Compile Include="Migrations\202008261559483_SetForeignKeys.designer.cs">
       <DependentUpon>202008261559483_SetForeignKeys.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008261921025_SetRatingController.cs" />
+    <Compile Include="Migrations\202008261921025_SetRatingController.designer.cs">
+      <DependentUpon>202008261921025_SetRatingController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Rating.cs" />
     <Compile Include="Models\Restaurant.cs" />
@@ -363,6 +367,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008261559483_SetForeignKeys.resx">
       <DependentUpon>202008261559483_SetForeignKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008261921025_SetRatingController.resx">
+      <DependentUpon>202008261921025_SetRatingController.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

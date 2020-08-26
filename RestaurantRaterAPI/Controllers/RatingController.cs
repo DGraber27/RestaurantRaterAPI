@@ -1,6 +1,7 @@
 ﻿using RestaurantRaterAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects.DataClasses;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -36,5 +37,48 @@ namespace RestaurantRaterAPI.Controllers
         //get all ratings ?
 
         // Get All Ratings for a specific Restaurant
+        [HttpGet]
+        public async Task<IHttpActionResult> GetSpecificRestaurantRating(int id)
+        {
+            Rating rating = await _context.Ratings.FindAsync(id);
+            if (id != null)
+            return Ok(rating.Restaurant);
+            return NotFound();
+        }
+
+
+        //Update
+        [HttpPut]
+        public async Task<IHttpActionResult> UpdateRestaurantRating([FromUri] int id, [FromBody] Rating updatedRating)
+        {
+           if(ModelState.IsValid)
+            {
+                Rating rating = await _context.Ratings.FindAsync(id);
+                if (rating != null)
+                {
+                    rating.FoodScore = updatedRating.FoodScore;
+                    rating.EnvironmentScore = updatedRating.EnvironmentScore;
+                    rating.CleanlinessScore = updatedRating.CleanlinessScore;
+                        await _context.SaveChangesAsync();
+                    return Ok("Your rating has been updated!");
+                }
+                return NotFound();
+            }
+            return BadRequest(ModelState);
+        }
+        //Delete
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteRatingByID(int id)
+        {
+            Rating rating = await _context.Ratings.FindAsync(id);
+            if (rating == null)
+                return NotFound();
+
+            _context.Ratings.Remove(rating);
+
+            if (await _context.SaveChangesAsync() == 1)
+                return Ok("The rating was deleted.");
+            return InternalServerError();
+        }
     }
 }

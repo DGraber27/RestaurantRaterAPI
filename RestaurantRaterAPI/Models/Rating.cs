@@ -32,7 +32,7 @@ namespace RestaurantRaterAPI.Models
             get
             {
                 var totalScore = FoodScore + EnvironmentScore + CleanlinessScore + CleanlinessScore;
-                return totalScore  / 3;
+                return Math.Round(totalScore  / 3, 2);
             }
         }
     }
